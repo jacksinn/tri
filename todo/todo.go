@@ -1,8 +1,8 @@
 package todo
 
 import (
+	"io/ioutil"
 	"encoding/json"
-	"fmt"
 )
 type Item struct {
 	Text string
@@ -13,6 +13,9 @@ func SaveItems(filename string, items []Item) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(string(b))
+	err = ioutil.WriteFile(filename, b, 0644)
+	if err != nil {
+		return err
+	}
 	return nil
 }

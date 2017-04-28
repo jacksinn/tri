@@ -18,6 +18,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"github.com/jacksinn/tri/todo"
 )
 
 // addCmd represents the add command
@@ -44,5 +45,9 @@ func init() {
 }
 
 func addRun(cmd *cobra.Command, args []string){
-	fmt.Println("add called")
+	items := []todo.Item{}
+	for _, x := range args {
+		items = append(items, todo.Item{Text: x})
+	}
+	fmt.Printf("%#v\n", items)
 }

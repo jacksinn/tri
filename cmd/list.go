@@ -19,6 +19,9 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/jacksinn/tri/todo"
+	"text/tabwriter"
+	"os"
+	"strconv"
 	"log"
 )
 
@@ -32,14 +35,7 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		items, err := todo.ReadItems(dataFile)
-
-		if err != nil {
-			log.Printf("%v", err)
-		}
-		fmt.Println(items)
-	},
+	Run: listRun,
 }
 
 func init() {
@@ -55,4 +51,19 @@ func init() {
 	// is called directly, e.g.:
 	// listCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
+}
+
+func listRun(cmd *cobra.Command, args []string) {
+	items, err := todo.ReadItems(dataFile)
+
+	if err != nil {
+		log.Printf("%v", err)
+	}
+	//fmt.Println(items)
+
+	w := tabwriter.NewWriter(os.Stdout, 3,0,1,' ', 0)
+	for _, i := range items {
+		fmt.Fprintln(w, strconv.Itoa(i.Priority) + "\t" + i.Text + "\t")
+	}
+	w.Flush()
 }

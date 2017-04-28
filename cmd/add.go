@@ -54,7 +54,9 @@ func addRun(cmd *cobra.Command, args []string){
 	}
 
 	for _, x := range args {
-		items = append(items, todo.Item{Text: x})
+		item := todo.Item{Text: x}
+		item.SetPriority(priority)
+		items = append(items, item)
 	}
 	err = todo.SaveItems(dataFile, items)
 	if err != nil {

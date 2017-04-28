@@ -58,7 +58,9 @@ func init() {
 		log.Println("Unable to detect home directory. Please set data file using --datafile.")
 	}
 
-	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.tri.yaml)")
+	RootCmd.PersistentFlags().StringVar(&cfgFile,
+		"config", "",
+		"config file (default is $HOME/.tri.yaml)")
 
 	RootCmd.PersistentFlags().StringVar(&dataFile,
 	"datafile",

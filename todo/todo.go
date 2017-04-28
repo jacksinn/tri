@@ -66,7 +66,7 @@ func ReadItems(filename string) ([]Item, error) {
 	if err := json.Unmarshal(b, &items); err != nil {
 		return []Item{}, err
 	}
-	for i := range items {
+	for i, _ := range items {
 		items[i].position = i + 1
 	}
 	return items, nil
@@ -85,11 +85,11 @@ func (s ByPri) Swap(i, j int) {
 }
 
 func (s ByPri) Less(i, j int) bool {
-	if s[i].Done != s[j].Done {
-		return s[j].Done
+	if s[i].Done == s[j].Done {
+		if s[i].Priority == s[j].Priority {
+			return s[i].position < s[j].position
+		}
+		return s[i].Priority < s[j].Priority
 	}
-	if s[i].Priority == s[j].Priority {
-		return s[i].position < s[j].position
-	}
-	return s[i].Priority < s[j].Priority
+	return !s[i].Done
 }

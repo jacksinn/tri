@@ -4,8 +4,20 @@ import (
 	"io/ioutil"
 	"encoding/json"
 )
+
 type Item struct {
-	Text string
+	Text     string
+	Priority int
+}
+
+func (i *Item) SetPriority(pri int){
+	switch pri {
+	case 1:
+		i.Priority = 1
+	case 3: i.Priority = 3
+	default:
+		i.Priority = 2
+	}
 }
 
 func SaveItems(filename string, items []Item) error {

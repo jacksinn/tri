@@ -19,7 +19,10 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/jacksinn/tri/todo"
+	"log"
 )
+
+var priority int
 
 // addCmd represents the add command
 var addCmd = &cobra.Command{
@@ -37,7 +40,7 @@ func init() {
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
 	// addCmd.PersistentFlags().String("foo", "", "A help for foo")
-
+	addCmd.Flags().IntVarP(&priority, "priority", "p", 2, "Priority:1,2,3")
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// addCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
@@ -45,13 +48,16 @@ func init() {
 }
 
 func addRun(cmd *cobra.Command, args []string){
-	items := []todo.Item{}
+	items, err := todo.ReadItems(dataFile)
+	if err != nil {
+		log.Printf("%v", err)
+	}
+
 	for _, x := range args {
 		items = append(items, todo.Item{Text: x})
 	}
-	err := todo.SaveItems("/Users/steven/.tridos.json", items)
+	err = todo.SaveItems(dataFile, items)
 	if err != nil {
 		fmt.Errorf("%v", err)
 	}
-	//fmt.Printf("%#v\n", items)
 }

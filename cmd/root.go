@@ -20,9 +20,13 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+
+	"github.com/mitchellh/go-homedir"
+	"log"
 )
 
 var cfgFile string
+var dataFile string
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
@@ -49,8 +53,17 @@ func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports Persistent Flags, which, if defined here,
 	// will be global for your application.
+	home, err := homedir.Dir()
+	if err != nil {
+		log.Println("Unable to detect home directory. Please set data file using --datafile.")
+	}
 
 	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.tri.yaml)")
+
+	RootCmd.PersistentFlags().StringVar(&dataFile,
+	"datafile",
+	home+string(os.PathSeparator)+".tridos.json",
+	"data file to store todos")
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	RootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")

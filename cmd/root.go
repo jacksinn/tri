@@ -80,6 +80,7 @@ func initConfig() {
 	viper.SetConfigName(".tri")            // name of config file (without extension)
 	viper.AddConfigPath(os.Getenv("HOME")) // adding home directory as first search path
 	viper.AutomaticEnv()                   // read in environment variables that match
+	viper.SetEnvPrefix("tri")
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {

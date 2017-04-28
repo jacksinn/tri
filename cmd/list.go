@@ -21,8 +21,8 @@ import (
 	"github.com/jacksinn/tri/todo"
 	"text/tabwriter"
 	"os"
-	"strconv"
 	"log"
+	"sort"
 )
 
 // listCmd represents the list command
@@ -60,10 +60,10 @@ func listRun(cmd *cobra.Command, args []string) {
 		log.Printf("%v", err)
 	}
 	//fmt.Println(items)
-
+	sort.Sort(todo.ByPri(items))
 	w := tabwriter.NewWriter(os.Stdout, 3,0,1,' ', 0)
 	for _, i := range items {
-		fmt.Fprintln(w, strconv.Itoa(i.Priority) + "\t" + i.Text + "\t")
+		fmt.Fprintln(w, i.Label() + "\t" + i.PrettyP() + "\t" + i.Text + "\t")
 	}
 	w.Flush()
 }

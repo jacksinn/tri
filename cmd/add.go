@@ -53,5 +53,5 @@ func addRun(cmd *cobra.Command, args []string){
 	if err != nil {
 		fmt.Errorf("%v", err)
 	}
-	fmt.Printf("%#v\n", items)
+	//fmt.Printf("%#v\n", items)
 }
